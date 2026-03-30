@@ -1,0 +1,33 @@
+#lib/elixir_graphql_mysql_web/graphql/queries/product_list.ex
+defmodule ElixirGraphqlMysqlWeb.Graphql.Queries.ProductList do
+  use Absinthe.Schema.Notation
+  import Ecto.Query
+  alias ElixirGraphqlMysql.Repo
+  alias ElixirGraphqlMysql.Catalogs.Product
+
+  def find_product(_parent, %{page: page}, _resolution) do
+    per_page = 5
+    offset = (page - 1) * per_page
+
+    # 1. Get total count for metadata
+    total_entries = Repo.one(from p in Product, select: count(p.id))
+    total_pages = ceil(total_entries / per_page)
+
+    # 2. Fetch the paginated data
+    # Using Ecto Query is safer and more idiomatic than raw SQL
+    query = from p in Product,
+      order_by: [asc: p.id],
+      limit: ^per_page,
+      offset: ^offset
+
+    entries = Repo.all(query)
+
+    # 3. Return the structured response
+    {:ok, %{
+      entries: entries,
+      total_pages: total_pages,
+      current_page: page,
+      total_entries: total_entries
+    }}
+  end
+end

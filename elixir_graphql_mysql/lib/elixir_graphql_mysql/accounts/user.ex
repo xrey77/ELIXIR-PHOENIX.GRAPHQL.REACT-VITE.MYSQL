@@ -46,6 +46,39 @@ defmodule ElixirGraphqlMysql.Accounts.User do
     |> unique_constraint(:username)
  end
 
+def profile_changeset(user, attrs) do
+  user
+
+  |> cast(attrs, [:firstname, :lastname, :mobile])
+  |> validate_required([:firstname, :lastname])
+end 
+
+def password_changeset(user, attrs) do
+  user
+
+  |> cast(attrs, [:password])
+  |> validate_required([:password])
+  |> validate_length(:password, min: 3) # password min length
+  |> put_password_hash() # This is the missing link
+end
+
+def mfa_changeset(user, attrs) do
+  user
+
+  |> cast(attrs, [:secret, :qrcodeurl])
+  |> validate_mfa_presence()
+end
+
+defp validate_mfa_presence(changeset) do
+  # If we are explicitly setting secret to nil (disabling), skip validation.
+  # Otherwise, ensure it's present.
+  case get_field(changeset, :secret) do
+    nil -> changeset
+    _   -> validate_required(changeset, [:secret])
+  end
+end
+
+
  defp put_password_hash(changeset) do
     # Check if the password change exists and the changeset is valid
     case get_change(changeset, :password) do

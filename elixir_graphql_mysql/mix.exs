@@ -5,7 +5,7 @@ defmodule ElixirGraphqlMysql.MixProject do
     [
       app: :elixir_graphql_mysql,
       version: "0.1.0",
-      elixir: "~> 1.15",
+      elixir: "~> 1.19",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -61,7 +61,11 @@ defmodule ElixirGraphqlMysql.MixProject do
       {:absinthe, "~> 1.7"},
       {:absinthe_plug, "~> 1.5"},
       {:bcrypt_elixir, "~> 3.0"},
-      {:absinthe_phoenix, "~> 2.0"}      
+      {:absinthe_phoenix, "~> 2.0"},
+      {:nimble_totp, "~> 1.0"},
+      {:eqrcode, "~> 0.2.1"},
+      {:qr_code, "~> 3.2.0"},
+      {:scrivener_ecto, "~> 2.7"} 
     ]
   end
 

@@ -3,7 +3,6 @@ defmodule ElixirGraphqlMysqlWeb.Graphql.Queries.Userid do
   use Absinthe.Schema.Notation
   alias ElixirGraphqlMysql.Accounts 
 
-  # Wrap your field in an object block
   object :user_id_queries do
     @desc "Get a user by ID"
     field :user, :user do
@@ -20,3 +19,20 @@ defmodule ElixirGraphqlMysqlWeb.Graphql.Queries.Userid do
     end
   end
 end
+
+#======REQUEST==========
+#query GetUserId($id: ID!) {    
+#    user(id: $id) {
+#        id
+#        firstname
+#        lastname
+#        email
+#        mobile
+#        username
+#        isactivated
+#        isblocked
+#        mailtoken
+#        userpic
+#        qrcodeurl
+#    }
+#}

@@ -28,7 +28,4 @@ defmodule ElixirGraphqlMysqlWeb.Graphql.Resolvers.Accounts do
         %{message: "#{field |> Phoenix.Naming.humanize()} #{List.first(messages)}", field: field}
     end)
   end
-
-
-
 end
