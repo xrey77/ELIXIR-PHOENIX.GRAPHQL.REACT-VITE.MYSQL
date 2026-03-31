@@ -10,6 +10,19 @@ defmodule ElixirGraphqlMysqlWeb.Schema do
   import_types ElixirGraphqlMysqlWeb.Graphql.Types.PaginationType
   import_types ElixirGraphqlMysqlWeb.Graphql.Queries.ProductsList
 
+  import_types ElixirGraphqlMysqlWeb.Graphql.Types.ProductPageInfo
+  import_types ElixirGraphqlMysqlWeb.Graphql.Queries.ProductsSearch
+
+  import_types ElixirGraphqlMysqlWeb.Graphql.Types.SalesTypes
+  import_types ElixirGraphqlMysqlWeb.Graphql.Queries.SalesQuery
+
+  import_types ElixirGraphqlMysqlWeb.Graphql.Types.ProductsType
+  import_types ElixirGraphqlMysqlWeb.Graphql.Queries.ProductReport
+
+  import_types ElixirGraphqlMysqlWeb.Graphql.Types.CategoryType
+  import_types ElixirGraphqlMysqlWeb.Graphql.Queries.ProductCategory
+
+
 
   import_types ElixirGraphqlMysqlWeb.Graphql.Types.CreateuserInput
   import_types ElixirGraphqlMysqlWeb.Graphql.Mutations.Register
@@ -29,11 +42,17 @@ defmodule ElixirGraphqlMysqlWeb.Schema do
   import_types ElixirGraphqlMysqlWeb.Graphql.Types.UploadPictureInput
   import_types ElixirGraphqlMysqlWeb.Graphql.Mutations.UploadPicture
 
+  import_types ElixirGraphqlMysqlWeb.Graphql.Types.VerifytotpInput
+  import_types ElixirGraphqlMysqlWeb.Graphql.Mutations.VerifyTotp
 
   query do
     import_fields :user_queries
     import_fields :user_id_queries 
     import_fields :products_list
+    import_fields :products_search_queries
+    import_fields :sales_queries
+    import_fields :product_report
+    import_fields :product_category_queries
   end
 
   mutation do
@@ -43,6 +62,7 @@ defmodule ElixirGraphqlMysqlWeb.Schema do
     import_fields :updatepassword_mutation
     import_fields :activatemfa_mutation
     import_fields :uploadpicture_mutation
+    import_fields :verifytotp_mutation
   end
 
 end

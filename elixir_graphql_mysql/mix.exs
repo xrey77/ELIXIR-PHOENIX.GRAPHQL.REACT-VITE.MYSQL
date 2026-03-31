@@ -65,7 +65,8 @@ defmodule ElixirGraphqlMysql.MixProject do
       {:nimble_totp, "~> 1.0"},
       {:eqrcode, "~> 0.2.1"},
       {:qr_code, "~> 3.2.0"},
-      {:scrivener_ecto, "~> 2.7"} 
+      {:scrivener_ecto, "~> 2.7"},
+      {:cors_plug, "~> 3.0"}      
     ]
   end
 
