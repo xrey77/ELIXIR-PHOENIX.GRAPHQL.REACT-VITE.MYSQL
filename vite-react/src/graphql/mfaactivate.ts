@@ -2,13 +2,14 @@ import { gql } from '@apollo/client';
 
 
 export const ACTIVATE_MFA = gql`
-  mutation MfaActivaiont($input: MfaActivationInput!){
-    mfaActivation(input: $input) {
+  mutation ActivateMfa($input: ActivatemfaInput!) {
+    activateMfa(input: $input) {
       qrcodeurl
       message
     }
   }
 `;
+
 
 export interface UserData {
   id: number;
@@ -25,7 +26,7 @@ export interface UserData {
 }
 
 export interface MfaActivationData {
-  mfaActivation: UserData;
+  activateMfa: UserData;
 }
 
 export interface MfaActivationVariables {

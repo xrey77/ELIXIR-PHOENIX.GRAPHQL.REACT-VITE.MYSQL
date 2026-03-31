@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const GETUSERID_QUERY = gql`
-  query GetUserId($id: Int!) {
+  query GetUserId($id: ID!) {
     user(id: $id) {
       id
       firstname
@@ -35,5 +35,5 @@ export interface GetUserIdData {
 }
 
 export interface GetUserIdVariables {
-  id: number;
+  id: string;
 }

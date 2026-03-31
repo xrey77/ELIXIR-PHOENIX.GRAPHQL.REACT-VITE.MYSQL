@@ -36,3 +36,8 @@ end
 #        qrcodeurl
 #    }
 #}
+
+#===VARIABLES====
+#{
+#  "id": 1
+#}

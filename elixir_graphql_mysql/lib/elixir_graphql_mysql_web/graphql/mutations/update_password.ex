@@ -14,23 +14,9 @@ end
 
 
 #=====REQUEST========
-#mutation LoginUser($input: LoginInput!) {    
-#    loginUser(input: $input) {
-#        token
+#mutation UpdatePassword($input: UpdatePasswordInput!) {
+#    updatePassword(input: $input) {
 #        message
-#        user{
-#            id
-#            firstname
-#            lastname
-#            email
-#            mobile
-#            username          
-#            isactivated
-#            isblocked
-#            mailtoken
-#            userpic
-#            qrcodeurl
-#        }
 #    }
 #}
 

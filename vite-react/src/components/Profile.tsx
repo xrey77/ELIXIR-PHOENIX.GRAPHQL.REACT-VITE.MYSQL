@@ -19,7 +19,7 @@ import { UPLOAD_PICTURE } from "../graphql/uploadpicture";
 import type { UploadData, UploadVariables } from "../graphql/uploadpicture";
 
 export default function Profile() {    
-    const [userid, setUserid] = useState<number>(0);;
+    const [userid, setUserid] = useState<string>('');;
     const [lname, setLname] = useState<string>('');
     const [fname, setFname] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -39,7 +39,9 @@ export default function Profile() {
     const fetchUserData = async (idno: any, tokenid: any) => {
         try {
             const { data } = await user({ 
-                variables: { id: idno },
+                variables: { 
+                    id: idno
+                },
                 context: {
                     headers: {
                         Authorization: `Bearer ${tokenid}`,
@@ -51,7 +53,7 @@ export default function Profile() {
                 setFname(data.user.firstname);
                 setEmail(data.user.email);
                 setMobile(data.user.mobile);
-                setUserpicture(`/users/${data.user.userpic}`);
+                setUserpicture(`http://localhost:4000/users/${data.user.userpic}`);
                 if (data.user.qrcodeurl !== null) {
                     setQrcodeurl(data.user.qrcodeurl);
                 } else {
@@ -71,21 +73,20 @@ export default function Profile() {
         jQuery("#password").prop('disabled', true);
 
         const userId = sessionStorage.getItem('USERID') ?? '';
-        let idno: number = parseInt(userId);
+        let idno: string = userId;
         setUserid(idno)
 
         const xtoken = sessionStorage.getItem('TOKEN') ?? '';
         setToken(xtoken);
-
         setProfileMsg('please wait..');
         fetchUserData(idno, xtoken);    
 
     },[userid, token]) 
 
 
-    const [updateUser] = useApolloMutation<ProfiledData, ProfileVariables>(UPDATE_PROFILE, {
+    const [updateProfile] = useApolloMutation<ProfiledData, ProfileVariables>(UPDATE_PROFILE, {
         onCompleted: (data: any) => {
-            setProfileMsg(data.updateUser.message);
+            setProfileMsg(data.updateProfile.message);
             setTimeout(() => { setProfileMsg(''); }, 3000);
         },
         onError: (err: any) => {
@@ -97,10 +98,10 @@ export default function Profile() {
     const submitProfile = async (event: React.SubmitEvent) => {
         event.preventDefault();
         try {
-            await updateUser({
+            await updateProfile({
                 variables: { 
                     input: {
-                        id: userid,
+                        id: parseInt(userid),
                         firstname: fname,
                         lastname: lname,
                         mobile: mobile 
@@ -124,7 +125,7 @@ export default function Profile() {
             setProfileMsg(data.uploadPicture.message);
             setTimeout(() => { 
                 setProfileMsg(''); 
-                let userpic: string = `/users/${data.uploadPicture.userpicture}`;
+                let userpic: string = `http://localhost:4000/users/${data.uploadPicture.userpic}`;
                 setUserpicture(userpic);
                 sessionStorage.setItem('USERPIC',userpic);
                 // window.location.reload();
@@ -145,18 +146,19 @@ export default function Profile() {
         try {
             await uploadPicture({
                 variables: {
-                        id: userid,
-                        file: file, 
-                },
-                context: {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                },
+                    id: parseInt(userid),
+                    file: file
+                }
+                // context: {
+                //     headers: {
+                //         Authorization: `Bearer ${token}`,
+                //     },
+                // },
             });
         } catch (err: any) {
+            console.log(err);
             setProfileMsg(err.message);
-            setTimeout(() => { setProfileMsg(''); }, 3000);
+            // setTimeout(() => { setProfileMsg(''); }, 3000);
         }
 
     }
@@ -189,13 +191,13 @@ export default function Profile() {
         }
     }
 
-    const [mfaActivation] = useApolloMutation<MfaActivationData, MfaActivationVariables>(ACTIVATE_MFA, {
+    const [activateMfa] = useApolloMutation<MfaActivationData, MfaActivationVariables>(ACTIVATE_MFA, {
         onCompleted: (data: any) => {
-            setProfileMsg(data.mfaActivation.message);
-            if (data.mfaActivation.qrcodeurl === null) {
+            setProfileMsg(data.activateMfa.message);
+            if (data.activateMfa.qrcodeurl === null) {
                 setQrcodeurl("/images/qrcode.png");
             } else {
-                setQrcodeurl(data.mfaActivation.qrcodeurl);
+                setQrcodeurl(data.activateMfa.qrcodeurl);
             }
             setTimeout(() => { setProfileMsg(''); }, 3000);
         },
@@ -208,10 +210,10 @@ export default function Profile() {
 
     const enableMFA = async () => {
         try {
-            await mfaActivation({
+            await activateMfa({
                 variables: {
                     input: {
-                       id: userid,
+                       id: parseInt(userid),
                        twofactorenabled: true
                     }
                 },
@@ -228,10 +230,10 @@ export default function Profile() {
 
     const disableMFA = async () => {
         try {
-            await mfaActivation({
+            await activateMfa({
                 variables: {
                     input: {
-                      id: userid,
+                      id: parseInt(userid),
                       twofactorenabled: false
                     }
                 },
@@ -246,9 +248,9 @@ export default function Profile() {
         }
     }
 
-    const [changePassword] = useApolloMutation<PasswordData, PasswordVariables>(CHANGE_PASSWORD, {
+    const [updatePassword] = useApolloMutation<PasswordData, PasswordVariables>(CHANGE_PASSWORD, {
         onCompleted: (data: any) => {
-            setProfileMsg(data.changePassword.message);
+            setProfileMsg(data.updatePassword.message);
             setTimeout(() => { setProfileMsg(''); }, 3000);
         },
         onError: (err: any) => {
@@ -257,7 +259,7 @@ export default function Profile() {
         }
     });
 
-    const updatePassword = async (event: any) => {
+    const changePassword = async (event: any) => {
         event.preventDefault();
         if (newpassword === '') {
             setProfileMsg("Please enter new Pasword.");
@@ -283,10 +285,10 @@ export default function Profile() {
         }
 
         try {
-            await changePassword({
+            await updatePassword({
                 variables: {
                   input: {
-                    id: userid,
+                    id: parseInt(userid),
                     password: newpassword 
                   }
                 },
@@ -383,7 +385,7 @@ export default function Profile() {
                             <>
                               <input className="form-control text-dark border-primary mt-2" type="password" id="newPassword" value={newpassword} onChange={e => setNewPassword(e.target.value)} autoComplete="off" placeholder='enter new Password'/>
                               <input className="form-control text-dark border-primary mt-1" type="password" id="confNewPassword" value={confnewpassword} onChange={e => setConfNewPassword(e.target.value)} autoComplete="off" placeholder='confirm new Password'/>
-                              <button onClick={updatePassword} className='btn btn-primary mt-2' type="button">change password</button>
+                              <button onClick={changePassword} className='btn btn-primary mt-2' type="button">change password</button>
                             </>
                         )
                         :

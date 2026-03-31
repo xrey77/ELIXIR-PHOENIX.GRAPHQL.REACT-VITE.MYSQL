@@ -50,7 +50,7 @@ export default function Login() {
     try {
         await loginUser({
           variables: {
-            "input": {
+            input: {
               "username": username,
               "password": password
           }

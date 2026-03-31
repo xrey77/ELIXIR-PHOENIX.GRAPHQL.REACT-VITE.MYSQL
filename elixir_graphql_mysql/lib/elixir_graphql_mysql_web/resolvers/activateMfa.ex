@@ -11,7 +11,8 @@ defmodule ElixirGraphqlMysqlWeb.Graphql.Resolvers.ActivateMfa do
         if input[:twofactorenabled] do
             secret = NimbleTOTP.secret()
             encoded_secret = Base.encode64(secret)
-            otpauth_uri = NimbleTOTP.otpauth_uri(user.email, secret, issuer: "BARCLAYS BANK")
+
+            otpauth_uri = NimbleTOTP.otpauth_uri(user.email, encoded_secret, issuer: "WORLD BANK")
 
             qr_code_base64 = 
             otpauth_uri

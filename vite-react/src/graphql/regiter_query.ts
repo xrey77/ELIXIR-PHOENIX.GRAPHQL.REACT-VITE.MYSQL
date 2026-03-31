@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const SIGNUP_MUTATION = gql`
-  RegisterUser($input: CreateUserInput!) {
+  mutation RegisterUser($input: CreateUserInput!) {
     registerUser(input: $input) {
       message
       user {

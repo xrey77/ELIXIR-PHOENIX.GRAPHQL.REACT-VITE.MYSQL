@@ -1,29 +1,13 @@
 import { gql } from '@apollo/client';
-
-  // mutation VerifyTotp(
-  //   $id: ID!,
-  //   $otp: String!
-  // ) {
-  //   verifyTotp(input: {
-  //     id: $id,
-  //     otp: $otp
-  //   }) {
-  //     username
-  //     message
-  //     errors
-  //   }
-  // }
-
+  
 export const VERIFY_OTP = gql`
-  mutation OtpVerification($input: OtpVerificationInput!) {
-    otpVerification(input: $input) {
+  mutation VerifyTotp($input: VerifytotpInput!) {
+    verifyOtp(input: $input) {
       username
       message
     }
   }
 `;
-
-
 
 export interface UserData {
   id: number;
@@ -40,7 +24,7 @@ export interface UserData {
 }
 
 export interface OtpVerificationData {
-  otpVerification: UserData;
+  verifyOtp: UserData;
 }
 
 export interface OtpVerificationVariables {

@@ -8,11 +8,11 @@ export default function Mfa() {
   const [otp, setOtp] = useState<string>('');
   const [message, setMessage] = useState<string>('');
 
-  const [otpVerification] = useApolloMutation<OtpVerificationData, OtpVerificationVariables>(VERIFY_OTP, {
+  const [verifyOtp] = useApolloMutation<OtpVerificationData, OtpVerificationVariables>(VERIFY_OTP, {
       onCompleted: (data: any) => {
-          if (data.otpVerification.username !== null) {
-            setMessage(data.otpVerification.message);
-            sessionStorage.setItem("USERNAME", data.otpVerification.username);            
+          if (data.verifyOtp.username !== null) {
+            setMessage(data.verifyOtp.message);
+            sessionStorage.setItem("USERNAME", data.verifyOtp.username);            
             window.setTimeout(() => {
               setMessage('');
               jQuery("#mfaReset").trigger('click');
@@ -37,18 +37,18 @@ export default function Mfa() {
     setMessage('please wait..');
 
     try {
-        await otpVerification({
+        await verifyOtp({
             variables: {
               input: {
                   id: parseInt(userid),
                   otp: otp
               }
-            },
-            context: {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            },
+            }
+            // context: {
+            //     headers: {
+            //         Authorization: `Bearer ${token}`,
+            //     },
+            // },
         });
     } catch (err: any) {
         setMessage(err.message);

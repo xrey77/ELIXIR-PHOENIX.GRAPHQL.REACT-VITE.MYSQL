@@ -9,6 +9,7 @@ export const UPLOAD_PICTURE = gql`
   }
 `;
 
+
 export interface UserData {
   id: number;
   firstname: string;
@@ -19,7 +20,7 @@ export interface UserData {
   isactivated: boolean;
   isblocked: boolean;
   mailtoken: string;
-  userpicture: string;
+  userpic: string;
   qrcodeurl: string;
 }
 

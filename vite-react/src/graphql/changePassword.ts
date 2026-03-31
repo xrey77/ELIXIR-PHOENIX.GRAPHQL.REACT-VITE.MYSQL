@@ -3,11 +3,12 @@ import { gql } from '@apollo/client';
 
 export const CHANGE_PASSWORD = gql`
   mutation UpdatePassword($input: UpdatePasswordInput!) {
-    changePassword(input: $input) {
+    updatePassword(input: $input) {
       message
     }
   }
 `;
+
 
 export interface UserData {
   id: number;
@@ -24,7 +25,7 @@ export interface UserData {
 }
 
 export interface PasswordData {
-  changePassword: UserData;
+  updatePassword: UserData;
 }
 
 export interface PasswordVariables {

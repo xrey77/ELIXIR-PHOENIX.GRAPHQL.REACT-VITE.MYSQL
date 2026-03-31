@@ -1,25 +1,32 @@
 # lib/elixir_graphql_mysql_web/graphql/resolvers/uploadPicture.ex
 defmodule ElixirGraphqlMysqlWeb.Graphql.Resolvers.UploadPicture do
   alias ElixirGraphqlMysql.Accounts
-  alias ElixirGraphqlMysql.Repo # Ensure Repo is aliased
+  alias ElixirGraphqlMysql.Repo
 
-  def upload_picture(_parent, %{input: input}, _resolution) do
-    case Accounts.get_user(input.id) do
+  # Pattern match directly on :id and :file
+  def upload_picture(_parent, %{id: id, file: file}, _resolution) do
+
+    priv_path = :code.priv_dir(:elixir_graphql_mysql) # Replace with your actual :app_name
+    upload_dir = Path.join([priv_path, "static", "users"])
+
+    # 2. Ensure the directory exists
+    File.mkdir_p!(upload_dir)
+
+    case Accounts.get_user(id) do
       nil ->
         {:error, "User ID not found."}
 
       user ->
-        # 1. Process the file (assuming Accounts.upload_picture handles the physical file)
-        case Accounts.upload_picture(user, input) do
+        # Pass file directly or as a map if your Accounts logic expects it
+        case Accounts.upload_picture(user, %{file: file}) do
           {:ok, _uploaded_info} ->
-            extension = Path.extname(input.file.filename)
-            newfile = "00#{input.id}#{extension}"
+            extension = Path.extname(file.filename)
+            newfile = "00#{id}#{extension}"
 
-            # 2. Use a changeset to mark the field for update
             user
 
             |> Ecto.Changeset.change(%{userpic: newfile})            
-            |> Repo.update() # 3. Persist the change
+            |> Repo.update()
             |> case do
               {:ok, updated_user} ->
                 {:ok, %{
@@ -30,10 +37,8 @@ defmodule ElixirGraphqlMysqlWeb.Graphql.Resolvers.UploadPicture do
                 {:error, message: "Database update failed", details: traverse_errors(changeset)}
             end
 
-          #{:error, %Ecto.Changeset{} = changeset} ->
-            {:error, reason} ->
-                {:error, message: "File upload failed", details: reason}          
-#            {:error, userpic: nil, message: "Validation failed", details: traverse_errors(changeset)}
+          {:error, reason} ->
+            {:error, message: "File upload failed", details: reason}
         end
     end
   end

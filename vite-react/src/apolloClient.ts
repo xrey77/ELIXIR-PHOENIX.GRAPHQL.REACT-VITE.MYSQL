@@ -2,7 +2,10 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs';
 
 const uploadLink = new UploadHttpLink({
-  uri: 'http://localhost:4000/api/graphql',
+  uri: 'http://127.0.0.1:4000/api/graphql',
+  headers: {
+    "Apollo-Require-Preflight": "true"
+  }
 });
 
 export const client = new ApolloClient({

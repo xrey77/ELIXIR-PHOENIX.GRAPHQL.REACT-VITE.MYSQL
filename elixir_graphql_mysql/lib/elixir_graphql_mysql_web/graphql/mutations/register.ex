@@ -22,3 +22,15 @@ end
 #         }
 #     }    
 # }
+
+#=====VARIABLES========
+#{
+#    "input": {
+#        "firstname": "Joven",
+#        "lastname": "Acuin",
+#        "email": "joven@yahoo.com",
+#        "mobile": "32423423",
+#        "username": "Joven",
+#        "password": "rey"
+#    }
+#}

@@ -29,7 +29,7 @@ export default function Register() {
    try {
       await registerUser({
         variables: {
-          "input": {
+          input: {
             firstname: firstname, 
             lastname: lastname, 
             email: email, 
