@@ -10,14 +10,15 @@ export default function ProductCategory() {
     const [message, setMessage] = useState<string>('');
     const [categoryData, setCategoryData] = useState<Category[]>([]);
 
-    const [productCategory] = useLazyQuery<ProductCategoriesData>(PRODUCT_CATEGORY_QUERY);
+    const [categories] = useLazyQuery<ProductCategoriesData>(PRODUCT_CATEGORY_QUERY);
 
-    const getCategories = async () => {
+    const getallCategories = async () => {
         setMessage("Loading inventory data...");
         try {
-            const { data } = await productCategory();
-            if (data?.productCategory) {              
-                setCategoryData(data.productCategory);
+            const { data } = await categories();
+            console.log(data);
+            if (data?.categories) {              
+                setCategoryData(data.categories);
             }                
 
         } catch (err: any) {  
@@ -30,7 +31,7 @@ export default function ProductCategory() {
     }
     const { width, height } = useWindowSize();
     useEffect(() => {
-        getCategories()
+        getallCategories()
         
     },[])
 
@@ -41,7 +42,7 @@ export default function ProductCategory() {
   
   <div className="container-fluid"> 
     <PDFViewer width={width-50} height={height}>
-      <InventoryReport data={{ productCategory: categoryData }} />
+      <InventoryReport data={{ categories: categoryData }} />
     </PDFViewer>
     <br/><br/><br/><br/>
   </div>

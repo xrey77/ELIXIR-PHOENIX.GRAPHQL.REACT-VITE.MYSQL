@@ -25,13 +25,13 @@ export default function Prodsearch() {
       setMessage("please wait .");
         try {
             const { data } = await productSearch({ 
-                variables: { page: page, perPage: 5, keyword: searchkey }
+                variables: { pageNumber: page, keyword: searchkey }
             });
             if (data?.productSearch) {
-              setPage(data.productSearch.page);
-              setProdsearch(data.productSearch.products);
-              setTotpage(data.productSearch.totpage);
-              setTotalrecords(data.productSearch.totalrecords);
+              setPage(data.productSearch.currentPage);
+              setProdsearch(data.productSearch.entries);
+              setTotpage(data.productSearch.totalPages);
+              setTotalrecords(data.productSearch.totalEntries);
             }            
             setTimeout(() => { setMessage('');  }, 1000);
             return;
@@ -47,13 +47,13 @@ export default function Prodsearch() {
   const getProdPage = async (page: number) => {
         try {
             const { data } = await productSearch({ 
-                variables: { page: page, perPage: 5, keyword: searchkey }
+                variables: { pageNumber: page, keyword: searchkey }
             });
             if (data?.productSearch) {
-              setPage(data.productSearch.page);
-              setProdsearch(data.productSearch.products);
-              setTotpage(data.productSearch.totpage);
-              setTotalrecords(data.productSearch.totalrecords);
+              setPage(data.productSearch.currentPage);
+              setProdsearch(data.productSearch.entries);
+              setTotpage(data.productSearch.totalPages);
+              setTotalrecords(data.productSearch.totalEntries);
             }            
             return;
         } catch (err: any) {
@@ -123,7 +123,7 @@ return (
               return (
               <div className='col-md-4'>
               <div key={item['id']} className="card mx-3 mt-3">
-                  <img src={`/products/${item['productpicture']}`} className="card-img-top product-size" alt=""/>
+                  <img src={`http://127.0.0.1:4000/products/${item['productpicture']}`} className="card-img-top product-size" alt=""/>
                   <div className="card-body">
                     <h5 className="card-title">Descriptions</h5>
                     <p className="card-text desc-h">{item['descriptions']}</p>

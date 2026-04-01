@@ -37,7 +37,6 @@ export const InventoryReport = ({ data }: { data: ProductCategoriesData }) => (
         />
 
           <Text style={styles.headerTitle}>Product Report</Text>
-          {/* <Text style={{ fontSize: 10, color: '#666' }}>Generated on {new Date().toLocaleDateString()}</Text> */}
           <Text style={{ fontSize: 10, color: '#666' }}>
             Generated on {new Date().toLocaleDateString('en-US', { 
               year: 'numeric', 
@@ -49,9 +48,9 @@ export const InventoryReport = ({ data }: { data: ProductCategoriesData }) => (
         
       </View>
 
-      {data.productCategory.map((cat, i) => (
+      {data.categories.map((cat, i) => (
         <View key={i} style={styles.categorySection}>
-          <Text style={styles.categoryTitle}>{cat.category_name}</Text>
+          <Text style={styles.categoryTitle}>{cat.name}</Text>
           {/* Table Header */}
           <View style={[styles.tableRow, styles.tableHeader]}>
             <Text style={{width: 250}}>Descriptions</Text>
@@ -59,7 +58,6 @@ export const InventoryReport = ({ data }: { data: ProductCategoriesData }) => (
             <Text style={styles.col}>Unit</Text>
             <Text style={styles.col}>Sell Price</Text>
           </View>
-          {/* Product Rows */}
           {cat.products.map((prod) => (
             <View key={prod.id} style={styles.tableRow}>
               <Text style={{width: 250}}>{prod.descriptions}</Text>

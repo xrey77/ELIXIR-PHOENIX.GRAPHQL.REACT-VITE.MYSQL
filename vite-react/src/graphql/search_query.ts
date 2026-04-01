@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client';
 
 export const SEARCH_QUERY = gql`
-  query ProductSearch($page: Int!, $perPage: Int!, $keyword: String!) {
-    productSearch(page: $page, perPage: $perPage, keyword: $keyword) {
-      page
-      totpage
-      totalrecords
-      products {
+  query SearchForProducts($pageNumber: Int!, $keyword: String!) {   
+    productSearch(page: $pageNumber, keyword: $keyword) {       
+      totalPages
+      totalEntries
+      currentPage
+      entries {
         id
         category
         descriptions
@@ -39,16 +39,15 @@ export interface ProductData {
 
 export interface ProductSearchData {
     productSearch: {
-      page: number;
-      totpage: number;
-      totalrecords: number;
-      products: ProductData[];
+      totalPages: number;
+      totalEntries: number;
+      currentPage: number;
+      entries: ProductData[];
     }
 }
 
 export interface ProductSearchVariables {
-    page: number;
-    perPage: number;
+    pageNumber: number;
     keyword: string;
 }
 

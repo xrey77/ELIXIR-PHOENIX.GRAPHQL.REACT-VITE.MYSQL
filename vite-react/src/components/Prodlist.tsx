@@ -28,13 +28,13 @@ export default function Prodlist() {
 
         try {
             const { data } = await productsList({ 
-                variables: { page: pg, perPage: 5 }
+                variables: { pageNumber: pg }
             });
-            if (data?.productList) {
-              setPage(data.productList.page);
-              setProducts(data.productList.products);
-              setTotpage(data.productList.totpage);
-              setTotalrecs(data.productList.totalrecords);
+            if (data?.product) {
+              setPage(data.product.current_page);
+              setProducts(data.product.entries);
+              setTotpage(data.product.total_pages);
+              setTotalrecs(data.product.total_entries);
             }            
             return;
         } catch (err: any) {

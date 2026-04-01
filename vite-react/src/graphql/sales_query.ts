@@ -2,13 +2,12 @@ import { gql } from '@apollo/client';
   
 export const SALES_QUERY = gql`
   query SaleList {
-    sales{
+    allSales{
       salesamount
       salesdate
     }
   }
 `;
-
 
 export interface SaleData {
     salesamount: number
@@ -17,7 +16,7 @@ export interface SaleData {
 
 
 export interface SalesListData {
-    sales: SaleData[]  
+    allSales: SaleData[]  
 }
 
 

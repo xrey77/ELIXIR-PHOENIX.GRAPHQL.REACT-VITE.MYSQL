@@ -25,13 +25,13 @@ export default function Prodcatalog() {
 
         try {
             const { data } = await productsList({ 
-                variables: { page: pg, perPage: 5 }
+                variables: { pageNumber: pg }
             });
-            if (data?.productList) {
-              setPage(data.productList.page);
-              setProds(data.productList.products);
-              setTotpage(data.productList.totpage);
-              setTotalrecords(data.productList.totalrecords);
+            if (data?.product) {
+              setPage(data.product.current_page);
+              setProds(data.product.entries);
+              setTotpage(data.product.total_pages);
+              setTotalrecords(data.product.total_entries);
             }            
             return;
         } catch (err: any) {
@@ -94,7 +94,7 @@ export default function Prodcatalog() {
                     return (
                       <div className='col-md-4' key={item['id']}>
                       <div className="card mx-3 mt-3">
-                          <img src={`/products/${item['productpicture']}`} className="card-img-top product-size" alt=""/>
+                          <img src={`http://127.0.0.1:4000/products/${item['productpicture']}`} className="card-img-top product-size" alt=""/>
                           <div className="card-body">
                             <h5 className="card-title">Descriptions</h5>
                             <p className="card-text desc-h">{item['descriptions']}</p>

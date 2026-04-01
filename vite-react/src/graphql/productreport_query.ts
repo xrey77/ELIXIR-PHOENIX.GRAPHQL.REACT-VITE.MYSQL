@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const LIST_QUERY = gql`
   query ProductReport {
-    productReport{
+    allProducts{
       id
       category
       descriptions
@@ -17,7 +17,6 @@ export const LIST_QUERY = gql`
     }
   }
 `;
-
 
 export interface ProductData {
     id: number
@@ -34,7 +33,7 @@ export interface ProductData {
 }
 
 export interface ProductReportData {
-    productReport: ProductData[]
+    allProducts: ProductData[]
 }
 
 

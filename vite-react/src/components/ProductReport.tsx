@@ -18,8 +18,8 @@ export default function ProductReport() {
       try {
         const { data } = await productReport();
         console.log(data);
-        if (isMounted && data?.productReport) {
-          const products = data.productReport;
+        if (isMounted && data?.allProducts) {
+          const products = data.allProducts;
           const doc = <ReportTemplate products={products} />;
           
           // Generate Blob
